@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMTestsTable extends Migration
+class CreateMRoomTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,19 @@ class CreateMTestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_tests', function (Blueprint $table) {
+        Schema::create('m_room_types', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
 
-            $table->string('test_name');
-            $table->integer('test_time');
-            $table->date('test_date')->nullable();
-            $table->text('test_description')->nullable();
-            $table->integer('total')->default(0);
-            $table->boolean('free')->default(0);
+            $table->string('room_type')->nullable();
+            $table->text('room_desc')->nullable();
+            $table->text('room_note')->nullable();
+            $table->decimal('room_rate', 10,0)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['user_id']);
         });
     }
 
@@ -35,6 +36,6 @@ class CreateMTestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_tests');
+        Schema::dropIfExists('m_room_types');
     }
 }

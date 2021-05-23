@@ -48,7 +48,7 @@
     <div class="row">
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <a href="{{ route('bank.show') }}">
+            <a href="#">
             <div class="card card-statistic-1">
               <div class="card-icon bg-primary">
                 <i class="fas fa-university"></i>
@@ -195,27 +195,6 @@
     @else
 
     {{-- User biasa login --}}
-    @foreach ($test as $item)
-        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <a href="{{ url('/admin/start') }}/{{ $item->id }}">
-            <div class="card card-statistic-1">
-            <div class="card-icon bg-primary">
-                <img style="width: 70%; margin: 0 auto; margin-top: 11px" src="{{ url('images/system/logo_200x200.png') }}" alt="">
-            </div>
-            <div class="card-wrap">
-                <div class="card-header">
-                <h4>{{ $item-> test_name }} - {{ $item-> test_time }} Menit</h4>
-                <span class="badge badge-success">{{ $item-> total }} Soal</span>
-                @if ($item -> free == 1)
-                    <span class="badge badge-warning">Gratis</span>
-                @endif
-
-                </div>
-            </div>
-            </div>
-            </a>
-        </div>
-    @endforeach
 
     <div style="height: 60px; position: fixed; bottom: 0px; background-color: white; width: 100%; padding: 0px 10px 10px 10px">
         <div class="row">
@@ -267,7 +246,7 @@
             featureCategoryFeature()
             featureMasterFeature()
             historyFeature()
-            discussionAdmin()
+            // discussionAdmin()
             @endif
 
             $('#show_data').addClass('row');
@@ -348,17 +327,17 @@
             });
         }
 
-        function discussionAdmin() {
-            $('#modal-update-feature-master').modal('show');
-            $.get(("{{ route('f.admin.notif') }}"), function(data) {
-                $('#show_data').append(data);
-                console.log('data showed');
-            })
-            .fail(function (err) {
-                console.log('error get ajax users feature with: '+ err);
-                $('#show_data').append('<p>Error get data history</p>');
-            });
-        }
+        // function discussionAdmin() {
+        //     $('#modal-update-feature-master').modal('show');
+        //     $.get(("{{ route('f.admin.notif') }}"), function(data) {
+        //         $('#show_data').append(data);
+        //         console.log('data showed');
+        //     })
+        //     .fail(function (err) {
+        //         console.log('error get ajax users feature with: '+ err);
+        //         $('#show_data').append('<p>Error get data history</p>');
+        //     });
+        // }
 
 
 

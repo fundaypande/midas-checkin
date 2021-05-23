@@ -54,6 +54,10 @@ class FeatureSeeder extends Seeder
             'icon' => 'fa-book-open'
         ]);
 
+        // ************************
+        // FEATURE MASTER
+        // ************************
+
         DB::table('feature_masters')->insert([
             'id' => 1,
             'feature_master_name' => 'Users',
@@ -89,48 +93,48 @@ class FeatureSeeder extends Seeder
         ]);
 
         // ************************
-        // MIDNERSI
+        // MIDEAS CHECKIN
         // ************************
 
         DB::table('feature_masters')->insert([
             'id' => 6,
-            'feature_master_name' => 'Bank Soal',
-            'feature_master_description' => 'Kelola Bank Soal',
+            'feature_master_name' => 'Room Type',
+            'feature_master_description' => 'Kelola Room Type',
             'feature_category_id' => 6,
-            'slug' => '/admin/bank-soal'
+            'slug' => '/admin/room-type'
         ]);
 
         DB::table('feature_masters')->insert([
             'id' => 7,
-            'feature_master_name' => 'Group Test',
-            'feature_master_description' => 'Test Group',
-            'feature_category_id' => 6,
-            'slug' => '/admin/test'
+            'feature_master_name' => 'Property Setting',
+            'feature_master_description' => 'Property Setting',
+            'feature_category_id' => 5,
+            'slug' => '/admin/property-setting'
         ]);
 
         DB::table('feature_masters')->insert([
             'id' => 8,
-            'feature_master_name' => 'Discussion',
-            'feature_master_description' => 'Discussion',
-            'feature_category_id' => 2,
-            'slug' => '/admin/discussion'
+            'feature_master_name' => 'Checkin Report',
+            'feature_master_description' => 'Checkin Report',
+            'feature_category_id' => 3,
+            'slug' => '/admin/checkin-repport'
         ]);
 
-        DB::table('feature_masters')->insert([
-            'id' => 9,
-            'feature_master_name' => 'User Result',
-            'feature_master_description' => 'User Result',
-            'feature_category_id' => 2,
-            'slug' => '/admin/result'
-        ]);
+        // DB::table('feature_masters')->insert([
+        //     'id' => 9,
+        //     'feature_master_name' => 'User Result',
+        //     'feature_master_description' => 'User Result',
+        //     'feature_category_id' => 2,
+        //     'slug' => '/admin/result'
+        // ]);
 
-        DB::table('feature_masters')->insert([
-            'id' => 10,
-            'feature_master_name' => 'User Test',
-            'feature_master_description' => 'User Test',
-            'feature_category_id' => 2,
-            'slug' => '/admin/result'
-        ]);
+        // DB::table('feature_masters')->insert([
+        //     'id' => 10,
+        //     'feature_master_name' => 'User Test',
+        //     'feature_master_description' => 'User Test',
+        //     'feature_category_id' => 2,
+        //     'slug' => '/admin/result'
+        // ]);
 
 
         // hilangkan 'feature_category_id' karena sudah didefinisikan di table 'feature_masters'
@@ -329,14 +333,14 @@ class FeatureSeeder extends Seeder
         ]);
 
         // ************************
-        // MIDNERSI
+        // MIDAS ECHECKIN
         // ************************
 
-        // Bank Soal
+        // Room Type
         DB::table('features')->insert([
             'id' => 20,
-            'feature_name' => 'Bank Soal',
-            'description' => 'Show Bank Soal',
+            'feature_name' => 'Room Type',
+            'description' => 'Show Room Type',
             'feature_master_id' =>  6,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -346,8 +350,8 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 21,
-            'feature_name' => 'Update Bank Soal',
-            'description' => 'Update Bank Soal',
+            'feature_name' => 'Update Room Type',
+            'description' => 'Update Room Type',
             'feature_master_id' =>  6,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -357,8 +361,8 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 22,
-            'feature_name' => 'Store Bank Soal',
-            'description' => 'Store Bank Soal',
+            'feature_name' => 'Store Room Type',
+            'description' => 'Store Room Type',
             'feature_master_id' =>  6,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -368,8 +372,8 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 23,
-            'feature_name' => 'Delete Bank Soal',
-            'description' => 'Delete Bank Soal',
+            'feature_name' => 'Delete Room Type',
+            'description' => 'Delete Room Type',
             'feature_master_id' =>  6,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -377,11 +381,11 @@ class FeatureSeeder extends Seeder
             'aktive' => 1,
         ]);
 
-        // Group test
+        // Property Setting
         DB::table('features')->insert([
             'id' => 24,
-            'feature_name' => 'Group Test',
-            'description' => 'Show Group Test',
+            'feature_name' => 'Property Setting',
+            'description' => 'Show Property Setting',
             'feature_master_id' =>  7,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -391,8 +395,8 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 25,
-            'feature_name' => 'Update Group Test',
-            'description' => 'Update Group Test',
+            'feature_name' => 'Update Property Setting',
+            'description' => 'Update Property Setting',
             'feature_master_id' =>  7,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -402,8 +406,8 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 26,
-            'feature_name' => 'Store Group Test',
-            'description' => 'Store Group Test',
+            'feature_name' => 'Store Property Setting',
+            'description' => 'Store Property Setting',
             'feature_master_id' =>  7,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -413,8 +417,8 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 27,
-            'feature_name' => 'Delete Group Test',
-            'description' => 'Delete Group Test',
+            'feature_name' => 'Delete Property Setting',
+            'description' => 'Delete Property Setting',
             'feature_master_id' =>  7,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -423,11 +427,11 @@ class FeatureSeeder extends Seeder
         ]);
 
 
-        // Group test
+        // Checkin Report
         DB::table('features')->insert([
             'id' => 28,
-            'feature_name' => 'Discussion',
-            'description' => 'Show Discussion',
+            'feature_name' => 'Checkin Report',
+            'description' => 'Show Checkin Report',
             'feature_master_id' =>  8,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -437,8 +441,20 @@ class FeatureSeeder extends Seeder
 
         DB::table('features')->insert([
             'id' => 29,
-            'feature_name' => 'Store Disccussion',
-            'description' => 'Store disccussion',
+            'feature_name' => 'Store Checkin Report',
+            'description' => 'Store Checkin Report',
+            'feature_master_id' =>  8,
+            // 'feature_category_id' => 5,
+            'general' => 0,
+            'in_menu' => 0,
+            'aktive' => 1,
+        ]);
+
+
+        DB::table('features')->insert([
+            'id' => 30,
+            'feature_name' => 'Update Property Setting',
+            'description' => 'Update Property Setting',
             'feature_master_id' =>  8,
             // 'feature_category_id' => 5,
             'general' => 0,
@@ -447,49 +463,42 @@ class FeatureSeeder extends Seeder
         ]);
 
         DB::table('features')->insert([
-            'id' => 30,
-            'feature_name' => 'User Result',
-            'description' => 'User Result',
-            'feature_master_id' =>  9,
-            // 'feature_category_id' => 5,
-            'general' => 0,
-            'in_menu' => 1,
-            'aktive' => 1,
-        ]);
-
-        DB::table('features')->insert([
             'id' => 31,
-            'feature_name' => 'Store Result',
-            'description' => 'Store Result',
-            'feature_master_id' =>  9,
+            'feature_name' => 'Delete Property Setting',
+            'description' => 'Delete Property Setting',
+            'feature_master_id' =>  8,
             // 'feature_category_id' => 5,
             'general' => 0,
             'in_menu' => 0,
             'aktive' => 1,
         ]);
+
+
+
+
 
         // Group test
-        DB::table('features')->insert([
-            'id' => 32,
-            'feature_name' => 'Doing Test',
-            'description' => 'Doing Test',
-            'feature_master_id' =>  10,
-            // 'feature_category_id' => 5,
-            'general' => 0,
-            'in_menu' => 0,
-            'aktive' => 1,
-        ]);
+        // DB::table('features')->insert([
+        //     'id' => 32,
+        //     'feature_name' => 'Doing Test',
+        //     'description' => 'Doing Test',
+        //     'feature_master_id' =>  10,
+        //     // 'feature_category_id' => 5,
+        //     'general' => 0,
+        //     'in_menu' => 0,
+        //     'aktive' => 1,
+        // ]);
 
-        DB::table('features')->insert([
-            'id' => 33,
-            'feature_name' => 'Store Test Result',
-            'description' => 'Store Test Result',
-            'feature_master_id' =>  10,
-            // 'feature_category_id' => 5,
-            'general' => 0,
-            'in_menu' => 0,
-            'aktive' => 1,
-        ]);
+        // DB::table('features')->insert([
+        //     'id' => 33,
+        //     'feature_name' => 'Store Test Result',
+        //     'description' => 'Store Test Result',
+        //     'feature_master_id' =>  10,
+        //     // 'feature_category_id' => 5,
+        //     'general' => 0,
+        //     'in_menu' => 0,
+        //     'aktive' => 1,
+        // ]);
 
 
 

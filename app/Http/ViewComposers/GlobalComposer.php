@@ -42,24 +42,24 @@ class GlobalComposer
 
         // Notifikasi untuk disksui admin
         $notif = null;
-        if (Auth::user()->role_id == 1) {
-            $notif = MDiscussion::select('name', 'm_discussions.created_at', 'profile_id')
-                -> join('users', 'users.id', 'm_discussions.profile_id')
-                -> where('is_admin', null)
-                -> where('m_discussions.readed', 0)
-                -> latest()
-                -> get();
-        }
+        // if (Auth::user()->role_id == 1) {
+        //     $notif = MDiscussion::select('name', 'm_discussions.created_at', 'profile_id')
+        //         -> join('users', 'users.id', 'm_discussions.profile_id')
+        //         -> where('is_admin', null)
+        //         -> where('m_discussions.readed', 0)
+        //         -> latest()
+        //         -> get();
+        // }
 
-        if (Auth::user()->role_id == 3) {
-            $notif = MDiscussion::select('name', 'm_discussions.created_at', 'profile_id')
-                -> join('users', 'users.id', 'm_discussions.profile_id')
-                -> where('is_user', null)
-                -> where('m_discussions.readed', 0)
-                -> where('profile_id', Auth::user()->id)
-                -> latest()
-                -> get();
-        }
+        // if (Auth::user()->role_id == 3) {
+        //     $notif = MDiscussion::select('name', 'm_discussions.created_at', 'profile_id')
+        //         -> join('users', 'users.id', 'm_discussions.profile_id')
+        //         -> where('is_user', null)
+        //         -> where('m_discussions.readed', 0)
+        //         -> where('profile_id', Auth::user()->id)
+        //         -> latest()
+        //         -> get();
+        // }
 
         $view->with('globalFeatures', $features)->with('globalFeatureCategories', $featureCategory)->with('globalRole', $globalRole->role_name)
             ->with('globalSettings', $globalSetting)

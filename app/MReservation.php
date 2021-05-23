@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MTest extends Model
+class MReservation extends Model
 {
     use SoftDeletes;
     protected $guarded = [];

@@ -17,12 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(HistorySeeder::class);
         $this->call(SettingSeeder::class);
 
-        $this->call(MPointSeeder::class);
-        $this->call(MQuestionSeeder::class);
-        $this->call(MTestQuestionSeeder::class);
-        $this->call(MTestSeeder::class);
-        $this->call(MUserResultSeeder::class);
-        $this->call(MDiscussionSeeder::class);
-
+        $this->call(PropertySetting::class);
+        $this->call(ReservationSeeder::class);
+        $this->call(RoomSeeder::class);
     }
 }

@@ -140,9 +140,6 @@ Sudah di definisikan di kernel.php Bisa dicek
     + alert-danger
 
 
-
-
-
 # COMMAND
 FULL CRUD Ada di fitur feature category dengan dile FeatureCatCont.php Bisa dijadikan role CRUD
 
@@ -162,6 +159,10 @@ Untuk membuat html bekerja di datatable server
 
 Cek ketersediaan request:
 $checked = $request->has('delete') ? 1 : 0;
+
+# Tutorial
+Signature PAD Laravel https://www.asepit.com/cara-membuat-tandatangan-signature-pad-di-laravel
+
 
 
 

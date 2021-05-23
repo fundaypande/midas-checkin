@@ -124,30 +124,33 @@ Route::group(['middleware' => ['auth']], function(){
         });
 
         // ************************
-        // MIDNERSI
+        // CHECKIN
         // ************************
 
-        // bank soal
-        Route::prefix('bank-soal')->group(function () {
-            Route::get('/', 'MBankController@show')->name('bank.show');
-            Route::get('/detail/ajax/{id}', 'MBankController@detail')->name('bank.detail');
-            Route::get('/datatable', 'MBankController@data')->name('bank.data');
-            Route::post('/store', 'MBankController@store')->name('bank.store');
-            Route::post('/update/{id}', 'MBankController@update')->name('bank.update');
-            Route::delete('delete/{id}', 'MBankController@destroy')->name('bank.delete');
+        // room-type
+        Route::prefix('room-type')->group(function () {
+            Route::get('/', 'MRoomCont@show')->name('room.show');
+            Route::get('/detail/ajax/{id}', 'MRoomCont@detail')->name('room.detail');
+            Route::get('/datatable', 'MRoomCont@data')->name('room.data');
+            Route::post('/store', 'MRoomCont@store')->name('room.store');
+            Route::post('/update/{id}', 'MRoomCont@update')->name('room.update');
+            Route::delete('delete/{id}', 'MRoomCont@destroy')->name('room.delete');
         });
 
          // test
-         Route::prefix('test')->group(function () {
-            Route::get('/', 'MTestController@show')->name('test.show');
-            Route::get('/detail/ajax/{id}', 'MTestController@detail')->name('test.detail');
-            Route::get('/datatable', 'MTestController@data')->name('test.data');
-            Route::post('/store', 'MTestController@store')->name('test.store');
-            Route::post('/update/{id}', 'MTestController@update')->name('test.update');
-            Route::delete('delete/{id}', 'MTestController@destroy')->name('test.delete');
+         Route::prefix('property-setting')->group(function () {
+            Route::get('/', 'MPropertyCont@show')->name('property.show');
+            Route::post('/update', 'MPropertyCont@update')->name('property.update');
+        });
 
-            Route::get('/soal/{id}', 'MTestController@soal')->name('test.soal');
-            Route::post('/store/soal', 'MTestController@soalStore')->name('test.store.soal');
+        // Checkin Report
+        Route::prefix('checkin-repport')->group(function () {
+            Route::get('/', 'MCheckinCont@show')->name('checkin.show');
+            Route::get('/detail/ajax/{id}', 'MCheckinCont@detail')->name('checkin.detail');
+            Route::get('/datatable', 'MCheckinCont@data')->name('checkin.data');
+            Route::post('/store', 'MCheckinCont@store')->name('checkin.store');
+            Route::post('/update/{id}', 'MCheckinCont@update')->name('checkin.update');
+            Route::delete('delete/{id}', 'MCheckinCont@destroy')->name('checkin.delete');
         });
 
         // diskusi
@@ -178,7 +181,7 @@ Route::group(['middleware' => ['auth']], function(){
         });
 
         // ************************
-        // END MIDNERSI
+        // END CHECKIN
         // ************************
 
         Route::prefix('feature')->group(function () {

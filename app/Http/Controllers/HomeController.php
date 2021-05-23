@@ -9,9 +9,6 @@ use App\Role;
 use App\FeatureCategory;
 use App\FeatureMaster;
 use App\History;
-use App\EJData;
-use App\MDiscussion;
-use App\MTest;
 use Auth;
 
 class HomeController extends Controller
@@ -32,25 +29,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        $test = MTest::select('id', 'test_name', 'test_time', 'total', 'free')
-                        -> get();
 
-        return view('admin.dashboard.dashboard', ['test' => $test]);
+        return view('admin.dashboard.dashboard');
     }
 
-    public function adminNotif()
-    {
-        if (!User::Role($this->discussion)) return '';
-
-        if (Auth::user()->role_id == 1) {
-            $data = MDiscussion::select('readed')
-                -> where('is_admin', null)
-                -> where('readed', 0)
-                -> count();
-        }
-
-        return view('admin.dashboard.view-discussion-admin', ['data' => $data]);
-    }
 
     public function fUser()
     {
