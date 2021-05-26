@@ -163,6 +163,9 @@ $checked = $request->has('delete') ? 1 : 0;
 # Tutorial
 Signature PAD Laravel https://www.asepit.com/cara-membuat-tandatangan-signature-pad-di-laravel https://www.itsolutionstuff.com/post/laravel-signature-pad-example-tutorialexample.html
 
+real 
+https://github.com/thread-pond/signature-pad
+
 
 
 

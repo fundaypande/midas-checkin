@@ -25,8 +25,15 @@
 @endsection
 
 @section('head')
-
+<link href="/css/jquery.signaturepad.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <style>
+        .pad{
+            border: 1px solid;
+        }
+        .sigWrapper{
+            border: none;
+        }
         .topBarA {
             background: #6777ef;
             color: rgba(255, 255, 255, 0.3);
@@ -99,7 +106,7 @@
             <br>
             <br>
             {{-- form start --}}
-            <form action="{{ route('checkin.store') }}" method="post">
+            <form action="{{ route('checkin.store') }}" id="idForm" method="post" >
                 @csrf
                 <div class="custom-switches-stacked mt-2">
                     <label class="custom-switch">
@@ -211,20 +218,29 @@
 
                 {{-- ttd --}}
 
-                <div class="col-md-12">
+                <div class="col-md-12 sigPad">
                     <label class="" for="">Silahkan membuat tandatangan sesuai
                          yang diinginkan :
                     </label>
-                    <br/>
-                    <div id="sig" ></div>
-                    <br/>
-                    <button id="clear" class="btn btn-danger btn-sm">Hapus
-                         Tandatangan
-                    </button>
-                    <textarea id="signature64" name="signed" style="display:
-                     none">
-                    </textarea>
+                    <p class="drawItDesc">Draw your signature</p>
+                    <ul class="sigNav">
+                      <li class="drawIt"><a href="#draw-it" >Draw It</a></li>
+                      <li class="clearButton"><a href="#clear">Clear</a></li>
+                    </ul>
+                    <div class="sig sigWrapper">
+                      <div class="typed"></div>
+                      <canvas class="pad" width="250" height="150"></canvas>
+                      <input type="hidden" name="output" class="output">
+                    </div>
+
                 </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <textarea name="signed" id="signature64" hidden cols="30" rows="10"></textarea>
 
                 {{-- end ttd --}}
 
@@ -236,7 +252,17 @@
             {{-- <button class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
             <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+
+
+
+
+
+
+
             </form>
+
+
+
 
 
 
@@ -256,25 +282,49 @@
 @section('script')
 
     {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> --}}
+    <script src="/js/jquery.signaturepad.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.sigPad').signaturePad({drawOnly:true});
+    });
+  </script>
+  <script src="/js/json2.min.js"></script>
 
     <script>
-        var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
-        $('#clear').click(function(e) {
-            e.preventDefault();
-            sig.signature('clear');
-            $("#signature64").val('');
+
+
+        $("#idForm").submit(function(e) {
+
+
+            var canvas = $('.sigPad').signaturePad({drawOnly:true}).getSignatureImage();
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            var url = form.attr('action');
+            // console.log(form.serialize());
+            // console.log(canvas);
+            $('#signature64').val(canvas);
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                // data: form.serialize() + '&signed="' + canvas + '"', // serializes the form's elements.
+                data: form.serialize(),
+                success: function(data)
+                {
+                    alert(data); // show response from the php script.
+                }
+                });
+
+
         });
-        var can = document.getElementById('sig');
-        var ctx = can.getContext('2d');
-        can.addEventListener( 'touchstart', onTouchStart, false);
 
-        function onTouchStart(e) {
-            ctx.fillRect(0,0,300,300);
-
-        }
 
 
         $(document).ready(function () {
+
+
             roomId = $('input[name="room_type_id"]:checked').val();
 
             $.get('/page/reservation-room/'+roomId, function( data ) {

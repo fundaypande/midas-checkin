@@ -8,6 +8,7 @@ use Yajra\Datatables\Datatables;
 use App\Exports\ReservationExsport;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
+use Intervention\Image\Facades\Image;
 
 use App\User;
 use App\FeatureCategory;
@@ -189,12 +190,15 @@ class MCheckinCont extends Controller
             // 'room_rate' => 'required',
         ]);
 
+        // return $request->all();
+
         // $data = FeatureCategory::create($request->all());
         // Menggunakan transaction
         DB::transaction(function () use ($request) {
 
 
-
+            // $image = Image::make($request->get('signed'));
+            // $image->save('images/ttd/bar.jpg');
 
             // upload ttd
             $folderPath = public_path('images/ttd/');
@@ -212,6 +216,7 @@ class MCheckinCont extends Controller
 
             // end upload ttd
             unset($request["signed"]);
+            unset($request["output"]);
             $data = MReservation::create($request->all());
 
         });
