@@ -7,15 +7,11 @@ Route::get('/', function()
     return redirect('/login');
 });
 
-Route::get('/page/privacy-policy-midnersi', function()
-{
-    return view('midnersi.page.privacy-policy');
-});
 
-Route::get('/page/upgrade', function()
-{
-    return view('midnersi.page.upgrade');
-});
+Route::get('/page/reservation/{userId}', 'MCheckinCont@userInput')->name('checkin.user');
+Route::get('/page/konfirmasi/{userId}', 'MCheckinCont@konfirmasi')->name('checkin.konfirmasi');
+Route::get('/page/reservation-room/{roomId}', 'MCheckinCont@userInputRoom')->name('checkin.userRoom');
+Route::post('reservation/store', 'MCheckinCont@store')->name('checkin.store');
 
 Route::get('/mobile', function()
 {
@@ -147,10 +143,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::prefix('checkin-repport')->group(function () {
             Route::get('/', 'MCheckinCont@show')->name('checkin.show');
             Route::get('/detail/ajax/{id}', 'MCheckinCont@detail')->name('checkin.detail');
-            Route::get('/datatable', 'MCheckinCont@data')->name('checkin.data');
-            Route::post('/store', 'MCheckinCont@store')->name('checkin.store');
+            Route::get('/datatable/{startDate?}/{endDate?}', 'MCheckinCont@data')->name('checkin.data');
+            // Route::get('/datatable', 'MCheckinCont@data')->name('checkin.data');
+
             Route::post('/update/{id}', 'MCheckinCont@update')->name('checkin.update');
             Route::delete('delete/{id}', 'MCheckinCont@destroy')->name('checkin.delete');
+
+            Route::get('/data-update/{id}', 'MCheckinCont@showUpdate')->name('checkin.show.update');
+            Route::get('/data-total/{startDate?}/{endDate?}', 'MCheckinCont@dataTotal')->name('checkin.data.total');
+            Route::get('/exsport', 'MCheckinCont@exsport')->name('checkin.exsport');
         });
 
         // diskusi

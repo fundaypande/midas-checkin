@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\User;
 use App\Role;
 use App\History;
+use App\MPropertySetting;
+use Illuminate\Support\Facades\DB;
 
 use Auth;
 
@@ -120,17 +122,29 @@ class UserCont extends Controller
             return redirect()->back()->with('alert-danger', 'The email already taken by another user');
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->get('role'),
-            'provider' => 'registered by admin',
-            'email_verified_at' => now(),
-            'token'    => Str::random(60),
-        ]);
+        $user = null;
 
-        History::MStore($this->master, $user->id, 'Register New User');
+        DB::transaction(function () use ($request, $user) {
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role_id' => $request->get('role'),
+                'provider' => 'registered by admin',
+                'email_verified_at' => now(),
+                'token'    => Str::random(60),
+            ]);
+
+            $property = MPropertySetting::create([
+                'user_id' => $user->id
+            ]);
+
+        });
+
+
+
+        History::MStore($this->master, 1, 'Register New User');
 
         return redirect()->back()->with('alert-success', 'Success add new user');
     }
@@ -155,7 +169,15 @@ class UserCont extends Controller
         if (!User::Role($this->delete)) return redirect()->back()->with('alert-danger', 'You cannot access delete user page');
 
         $data = User::find($id);
-        $data->delete();
+        $property = MPropertySetting::where('user_id', $id)->first();
+
+
+        DB::transaction(function () use ($data, $property) {
+
+            $data->delete();
+            $property->delete();
+
+        });
 
         History::MDelete($this->master, $id, 'users', 'Delete User Account', $data);
 

@@ -20,5 +20,23 @@ class PropertySetting extends Seeder
 
             'billing_info' => 'BCA 476576',
         ]);
+
+        DB::table('m_property_settings')->insert([
+            'user_id' => 2,
+            'owner_name' => 'Sudana yasa',
+            'property_name' => 'Reservation',
+            'property_adress' => 'pande',
+
+            'billing_info' => 'BCA 476576',
+        ]);
+
+        DB::table('m_property_settings')->insert([
+            'user_id' => 3,
+            'owner_name' => 'Sudana yasa',
+            'property_name' => 'Reservation',
+            'property_adress' => 'pande',
+
+            'billing_info' => 'BCA 476576',
+        ]);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Yajra\Datatables\Datatables;
+use App\Exports\ReservationExsport;
+use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 
 use App\User;
@@ -12,6 +14,8 @@ use App\FeatureCategory;
 use App\History;
 use App\MPoint;
 use App\MReservation;
+use App\MRoomType;
+use App\MPropertySetting;
 use Illuminate\Support\Facades\DB;
 
 class MCheckinCont extends Controller
@@ -30,12 +34,106 @@ class MCheckinCont extends Controller
         return view('reservation.checkin.checkin');
     }
 
-    public function data()
+    public function userInputRoom($roomId)
+    {
+        $room = MRoomType::find($roomId);
+
+        return $room->room_rate;
+    }
+
+    public function userInput($userId)
+    {
+        $room = MRoomType::where('user_id', $userId)->select('id', 'room_type')->get();
+
+        $info = MPropertySetting::where('user_id', $userId)->first();
+
+        return view('reservation.page.user-reservation', ['rooms' => $room, 'userId' => $userId, 'info' => $info]);
+    }
+
+    public function konfirmasi($userId)
+    {
+        $info = MPropertySetting::where('user_id', $userId)->first();
+
+        return view('reservation.page.konfirmasi', ['userId' => $userId, 'info' => $info]);
+    }
+
+    public function exsport()
+    {
+        if (!User::Role($this->view)) return redirect()->back()->with('alert-danger', 'You cannot access view feature management page');
+
+        return Excel::download(new ReservationExsport, 'backup-reservation.xlsx');
+    }
+
+    public function dataTotal($startDate = null, $endDate = null)
     {
         if (!User::Role($this->view)) return redirect()->back()->with('alert-danger', 'You cannot access this page');
 
+        $qDate = 'm_reservations.created_at BETWEEN "' . $startDate . '" AND "'. $endDate .'"';
+
+
+        $data = MReservation::whereRaw($qDate)
+                            -> where('m_reservations.user_id', Auth::user()->id)
+                            -> sum('total_pax');
+
+        return number_format($data,0,',','.');
+    }
+
+    public function showUpdate($id)
+    {
+        if (!User::Role($this->view)) return redirect()->back()->with('alert-danger', 'You cannot access view feature management page');
+
         $data = MReservation::join('m_room_types', 'm_room_types.id', 'm_reservations.room_type_id')
-                                ->where('m_reservations.user_id', Auth::user()->id)->get();
+                            -> where('m_reservations.id', $id)
+                            -> where('m_reservations.user_id', Auth::user()->id)
+                            -> first();
+
+        // dd($data);
+        $room = MRoomType::select('id', 'room_type')->get();
+
+        return view('reservation.checkin.checkin-update', ['data' => $data, 'rooms' => $room]);
+    }
+
+    public function data($startDate = null, $endDate = null)
+    {
+        if (!User::Role($this->view)) return redirect()->back()->with('alert-danger', 'You cannot access this page');
+
+        // $qUser      = 1;
+        // $qAction    = 1;
+        // $qFeature   = 1;
+        // $qDate      = 1;
+
+        // return $endDate;
+
+        // if ($userId != '-') {
+        //     $qUser = 'user_id = ' . $userId;
+        // }
+
+        // if ($action != '-') {
+        //     $qAction = 'action = "' . $action . '"';
+        // }
+
+        // if ($featureId != '-') {
+        //     $qFeature = 'feature_id = "' . $featureId . '"';
+        // }
+
+        $qDate = 'm_reservations.created_at BETWEEN "' . $startDate . '" AND "'. $endDate .'"';
+
+
+        $data = MReservation::join('m_room_types', 'm_room_types.id', 'm_reservations.room_type_id')
+                                -> select('m_room_types.room_type', 'm_reservations.*')
+                                -> whereRaw($qDate)
+                                -> where('m_reservations.user_id', Auth::user()->id)
+                                -> get();
+
+                                // return $data;
+        // $data = History::join('feature_masters', 'feature_masters.id', 'histories.feature_id')
+        //         -> join('users', 'users.id', 'histories.user_id')
+        //         // -> whereRaw($qUser)
+        //         // -> whereRaw($qAction)
+        //         // -> whereRaw($qFeature)
+        //         -> whereRaw($qDate)
+        //         -> select('histories.*', 'feature_masters.feature_master_name', 'users.name')
+        //         -> get();
 
         return Datatables::of($data)
         -> addColumn('action', function($data){
@@ -46,42 +144,83 @@ class MCheckinCont extends Controller
         -> addColumn('nama', function($data){
             return $data->nama_depan . ' ' . $data->nama_belakang;
         })
-        -> addColumn('room_type', function($data){
-            return $data->room_type;
-        })
-        // -> addColumn('completion_m', function($data){
-        //     return substr(strip_tags($data->completion),0,50)."...";
-        // })
-        // -> addColumn('icon', function($data){
-        //     $icon = '<i class="fas '. $data->icon .'"></i>';
-        //     return $icon;
-        // })
-        // ->rawColumns(['aktive', 'action', 'icon'])
-        ->rawColumns(['action', 'nama'])
+        ->rawColumns(['aksi', 'action'])
         ->make(true);
     }
+
+    // public function data()
+    // {
+    //     if (!User::Role($this->view)) return redirect()->back()->with('alert-danger', 'You cannot access this page');
+
+    //     $data = MReservation::join('m_room_types', 'm_room_types.id', 'm_reservations.room_type_id')
+    //                             ->where('m_reservations.user_id', Auth::user()->id)->get();
+
+    //     return Datatables::of($data)
+    //     -> addColumn('action', function($data){
+    //         $update = '<a id="btn-a-' . $data-> id . '" onclick="update(' . $data-> id . ')" class="mb-2 mr-2 btn btn-success fun-color-button nde-white"><i class="fun-icon pe-7s-edit"></i>Update</a>';
+    //         $delete = '<a onclick="deleteData(' . $data-> id . ')" class="mb-2 mr-2 btn btn-danger fun-color-button nde-white"><i class="fun-icon pe-7s-trash"></i>Delete</a>';
+    //       return $update . $delete;
+    //     })
+    //     -> addColumn('nama', function($data){
+    //         return $data->nama_depan . ' ' . $data->nama_belakang;
+    //     })
+    //     -> addColumn('room_type', function($data){
+    //         return $data->room_type;
+    //     })
+    //     // -> addColumn('completion_m', function($data){
+    //     //     return substr(strip_tags($data->completion),0,50)."...";
+    //     // })
+    //     // -> addColumn('icon', function($data){
+    //     //     $icon = '<i class="fas '. $data->icon .'"></i>';
+    //     //     return $icon;
+    //     // })
+    //     // ->rawColumns(['aktive', 'action', 'icon'])
+    //     ->rawColumns(['action', 'nama'])
+    //     ->make(true);
+    // }
 
     public function store(Request $request)
     {
 
-        if (!User::Role($this->store)) return redirect()->back()->with('alert-danger', 'You cannot access this page');
+        // if (!User::Role($this->store)) return redirect()->back()->with('alert-danger', 'You cannot access this page');
 
         $validatedData = $request->validate([
-            'room_type' => 'required',
-            'room_rate' => 'required',
+            // 'room_type' => 'required',
+            // 'room_rate' => 'required',
         ]);
 
         // $data = FeatureCategory::create($request->all());
         // Menggunakan transaction
         DB::transaction(function () use ($request) {
 
+
+
+
+            // upload ttd
+            $folderPath = public_path('images/ttd/');
+
+            $image_parts = explode(";base64,", $request->signed);
+
+            $image_type_aux = explode("image/", $image_parts[0]);
+
+            $image_type = $image_type_aux[1];
+
+            $image_base64 = base64_decode($image_parts[1]);
+
+            $file = $folderPath . $request->email . '.'.$image_type;
+            file_put_contents($file, $image_base64);
+
+            // end upload ttd
+            unset($request["signed"]);
             $data = MReservation::create($request->all());
 
         });
 
+
+
         // History::MStore($this->master, $data->id, 'Add new bank data with ID: '. $data->id);
 
-        return redirect('/admin/room-type')->with('alert-success', 'Berhasil Menambah Room');
+        return redirect('/page/konfirmasi/' . $request->user_id)->with('alert-success', 'Success input reservation form');
     }
 
     public function update(Request $request, $id)
@@ -90,8 +229,8 @@ class MCheckinCont extends Controller
         if (!User::Role($this->update)) return redirect()->back()->with('alert-danger', 'You cannot access this page');
 
         $validatedData = $request->validate([
-            'room_type' => 'required',
-            'room_rate' => 'required',
+            // 'room_type' => 'required',
+            // 'room_rate' => 'required',
         ]);
 
         $data = MReservation::find($id);
@@ -101,9 +240,9 @@ class MCheckinCont extends Controller
             $dataM = $data->update($request->all());
         });
 
-        History::MUpdate($this->master, $data->id, 'Update Room Type With ID: '. $data->id, $data);
+        History::MUpdate($this->master, $data->id, 'Update Reservation With ID: '. $data->id, $data);
 
-        return redirect('/admin/room-type')->with('alert-success', 'Success update Room Type');
+        return redirect('/admin/checkin-repport')->with('alert-success', 'Success update Reservation');
     }
 
     public function detail($id)
@@ -112,7 +251,7 @@ class MCheckinCont extends Controller
 
         $data = MReservation::find($id);
 
-        return view('reservation.room-type.ajax-update-room-type', ['data' => $data]);
+        return view('reservation.checkin.ajax-update-checkin', ['data' => $data]);
     }
 
     public function destroy($id)

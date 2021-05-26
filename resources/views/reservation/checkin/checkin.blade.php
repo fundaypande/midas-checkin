@@ -27,6 +27,7 @@
 @section('head')
     <link rel="stylesheet" href="{{ url('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/node_modules/bootstrap-daterangepicker/daterangepicker.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
 
@@ -34,8 +35,8 @@
 @endsection
 
 @section('modal')
-    @include('reservation.room-type.modal-add-room-type')
-    @include('reservation.room-type.modal-update-room-type')
+    @include('reservation.checkin.modal-add-checkin')
+    @include('reservation.checkin.modal-update-checkin')
 @endsection
 
 @section('content')
@@ -44,9 +45,70 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>Reservation</h4>
-                    <div class="text-right"><a onclick="openModalAdd()" id="btn_add_id" class="btn btn-success nde-white nde-pointer">Bagikan Reservation</a></div>
+                  <div class="text-right"><a href="{{ route('checkin.exsport') }}" id="btn_add_id" class="btn btn-success nde-white nde-pointer">Backup Data</a></div>
                   </div>
                   <div class="card-body">
+
+                    <div class="row">
+                        {{-- <div class="col-md-3">
+                            <div class="form-group col-md-12">
+                                <label>User</label>
+                                <select required id="user_id" name="role" class="form-control {{ $errors->has('gender') ? 'is-invalid' : '' }}">
+                                    <option value="-">-- All User</option>
+                                    @foreach ($user as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group col-md-12">
+                                <label>Action</label>
+                                <select id="action_id" required id="role_add" name="role" class="form-control {{ $errors->has('gender') ? 'is-invalid' : '' }}">
+                                    <option value="-">-- All Action</option>
+                                    <option value="store">Store</option>
+                                    <option value="update">Update</option>
+                                    <option value="delete">Delete</option>
+                                    <option value="restore">Restore</option>
+                                </select>
+                                </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group col-md-12">
+                                <label>Feature Master</label>
+                                <select required id="feature_id" name="role" class="form-control {{ $errors->has('gender') ? 'is-invalid' : '' }}">
+                                    <option value="-">-- All Feature</option>
+                                    @foreach ($feature as $item)
+                                        <option value="{{ $item->id }}">{{ $item->feature_master_name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                        </div> --}}
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>From Date</label>
+                            <input id="from_id" name="validity_form" type="text" data-provide="datepicker" value="{{ date('Y-m-d',strtotime("-1 month")) }}" class="form-control datepicker">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <input id="end_id" name="validity_form" type="text" data-provide="datepicker" value="{{ date('Y-m-d', strtotime("+1 days")) }}" class="form-control datepicker">
+                              </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Total</label>
+                                <input disabled id="total_id" type="text" data-provide="datepicker" value="" class="form-control datepicker">
+                              </div>
+                        </div>
+                    </div>
+
                   <div class="table-responsive">
                     <table class="table table-striped" id="users-table">
                         <thead>
@@ -58,6 +120,7 @@
                                 <th>Email</th>
                                 <th>Phone Number</th>
                                 <th>Room Type</th>
+                                <th>Total Pax</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -71,20 +134,90 @@
 @section('script')
     <script src="{{ url('/node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('/node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
     <script>
 
-        $(document).ready(function () {
+        var table;
+        var user = $('#user_id').val();
+        var action;
+        var feature;
+        var from;
+        var end;
+        var url;
 
+        $(document).ready(function () {
+            user = $('#user_id').val();
+            action = $('#action_id').val();
+            feature = $('#feature_id').val();
+            from = $('#from_id').val();
+            end = $('#end_id').val();
+            url = '{{ url("/admin/checkin-repport/datatable") }}/' + from + '/' + end;
+            urlTotal = '{{ url("/admin/checkin-repport/data-total") }}/' + from + '/' + end;
+            getTable();
+            getTotal(urlTotal);
         });
 
-        $(function() {
-            $('#users-table').DataTable({
+
+
+        $("input").change(function() {
+
+            user = $('#user_id').val();
+            action = $('#action_id').val();
+            feature = $('#feature_id').val();
+            from = $('#from_id').val();
+            end = $('#end_id').val();
+
+            url = '{{ url("/admin/checkin-repport/datatable") }}/' + from + '/' + end;
+            urlTotal = '{{ url("/admin/checkin-repport/data-total") }}/' + from + '/' + end;
+
+            console.log('change input listened');
+            table.ajax.url(url);
+            table.draw();
+
+            getTotal(urlTotal);
+        });
+
+        $("select").change(function() {
+
+            user = $('#user_id').val();
+            action = $('#action_id').val();
+            feature = $('#feature_id').val();
+            from = $('#from_id').val();
+            end = $('#end_id').val();
+
+            url = '{{ url("/admin/checkin-repport/datatable") }}/' + from + '/' + end;
+            urlTotal = '{{ url("/admin/checkin-repport/data-total") }}/' + from + '/' + end;
+
+            console.log('change input listened');
+            table.ajax.url(url);
+            table.draw();
+            getTotal(urlTotal);
+        });
+
+
+        function getTotal(url) {
+            $.get(url, function( data ) {
+                $('#total_id').val(data);
+                console.log('data showed total :' + data);
+            })
+            .fail(function (err) {
+                console.log('error get ajax feature category with: '+ err);
+                $('#total_id').html('Error get data');
+            });
+        }
+
+        function getTable() {
+
+
+            table = $('#users-table').DataTable({
+                order: [0, 'desc'],
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route("checkin.data") }}',
+                ajax: url,
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'created_at', name: 'created_at' },
@@ -94,26 +227,20 @@
                     { data: 'email', name: 'email' },
                     { data: 'phone_number', name: 'phone_number' },
                     { data: 'room_type', name: 'room_type' },
+                    { data: 'total_pax', name: 'total_pax' },
 
                     { data: 'action', name: 'action' },
                 ]
             });
-        });
+        }
+
 
         function openModalAdd() {
             $('#modal-add-user').modal('show');
         }
 
         function update(id) {
-            $('#modal-update-featurecat').modal('show');
-            $.get("{{ url('admin/room-type/detail/ajax') }}/"+id, function( data ) {
-                $('#show_data').html(data);
-                console.log('data showed');
-            })
-            .fail(function (err) {
-                console.log('error get ajax feature category with: '+ err);
-                $('#show_data').html('<p>Error get data</p>');
-            });
+            location.href = '/admin/checkin-repport/data-update/' + id;
         }
 
         function deleteData(id){
@@ -133,7 +260,7 @@
                     headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url : '/admin/room-type/delete/' + id,
+                    url : '/admin/checkin-repport/delete/' + id,
                     type: "POST",
                     data: {'_method': 'DELETE', '_token': csrf_token},
                     success: function(data) {
@@ -163,7 +290,6 @@
                 }
             });
         }
-
 
 
 
