@@ -121,6 +121,7 @@
                                 <th>Phone Number</th>
                                 <th>Room Type</th>
                                 <th>Total Pax</th>
+                                <th>Download</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -160,6 +161,11 @@
             getTable();
             getTotal(urlTotal);
         });
+
+
+        function pdf(id) {
+
+        }
 
 
 
@@ -229,6 +235,7 @@
                     { data: 'room_type', name: 'room_type' },
                     { data: 'total_pax', name: 'total_pax' },
 
+                    { data: 'pdf', name: 'pdf' },
                     { data: 'action', name: 'action' },
                 ]
             });

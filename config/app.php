@@ -184,6 +184,8 @@ return [
 
         // https://medium.com/@newrey9227/laravel-import-export-excel-ke-database-d04111585f08
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -241,6 +243,8 @@ return [
         // https://medium.com/@newrey9227/laravel-import-export-excel-ke-database-d04111585f08
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

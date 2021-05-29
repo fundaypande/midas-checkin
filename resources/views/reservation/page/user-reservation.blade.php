@@ -25,6 +25,9 @@
 @endsection
 
 @section('head')
+<link rel="stylesheet" href="{{ url('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url('/node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/node_modules/bootstrap-daterangepicker/daterangepicker.css') }}">
 <link href="/css/jquery.signaturepad.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <style>
@@ -283,6 +286,11 @@
 
     {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> --}}
     <script src="/js/jquery.signaturepad.js"></script>
+    <script src="{{ url('/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('/node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ url('/node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+
+
   <script>
     $(document).ready(function() {
       $('.sigPad').signaturePad({drawOnly:true});
@@ -313,7 +321,10 @@
                 data: form.serialize(),
                 success: function(data)
                 {
-                    alert(data); // show response from the php script.
+                    // alert(data); // show response from the php script.
+                    window.location.replace("/page/konfirmasi/" + data['user_id']);
+                    console.log(data['user_id']);
+
                 }
                 });
 

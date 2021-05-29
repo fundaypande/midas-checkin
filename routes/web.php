@@ -13,6 +13,8 @@ Route::get('/page/konfirmasi/{userId}', 'MCheckinCont@konfirmasi')->name('checki
 Route::get('/page/reservation-room/{roomId}', 'MCheckinCont@userInputRoom')->name('checkin.userRoom');
 Route::post('reservation/store', 'MCheckinCont@store')->name('checkin.store');
 
+Route::get('reservation/download-pdf/{id}', 'MCheckinCont@pdf')->name('checkin.pdf');
+
 Route::get('/mobile', function()
 {
   $data = array();

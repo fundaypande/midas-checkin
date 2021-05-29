@@ -8,6 +8,7 @@ use Yajra\Datatables\Datatables;
 use App\Exports\ReservationExsport;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
+use Illuminate\Support\Facades\Crypt;
 use Intervention\Image\Facades\Image;
 
 use App\User;
@@ -17,6 +18,7 @@ use App\MPoint;
 use App\MReservation;
 use App\MRoomType;
 use App\MPropertySetting;
+use PDF;
 use Illuminate\Support\Facades\DB;
 
 class MCheckinCont extends Controller
@@ -33,6 +35,30 @@ class MCheckinCont extends Controller
         if (!User::Role($this->view)) return redirect()->back()->with('alert-danger', 'You cannot access view feature management page');
 
         return view('reservation.checkin.checkin');
+    }
+
+    public function pdf($id)
+    {
+        $newId = Crypt::decryptString($id);
+
+        $data = MReservation::join('m_room_types', 'm_room_types.id','m_reservations.room_type_id')
+                            -> where('m_reservations.id', $newId)
+                            -> select('m_room_types.room_type', 'm_reservations.*')
+                            -> first();
+
+        $property = MPropertySetting::where('user_id', Auth::user()->id)->first();
+
+        $path = 'images/ttd/' . $data->email . '.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $fileData = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($fileData);
+
+        $data['ttdimage'] = $base64;
+
+        $pdf = PDF::loadView('reservation.checkin.pdf', ['data' => $data, 'property' => $property]);
+
+
+        return $pdf->download('invoice.pdf');
     }
 
     public function userInputRoom($roomId)
@@ -54,6 +80,8 @@ class MCheckinCont extends Controller
     public function konfirmasi($userId)
     {
         $info = MPropertySetting::where('user_id', $userId)->first();
+
+        // $newId = Crypt::decryptString($id);
 
         return view('reservation.page.konfirmasi', ['userId' => $userId, 'info' => $info]);
     }
@@ -142,10 +170,16 @@ class MCheckinCont extends Controller
             $delete = '<a onclick="deleteData(' . $data-> id . ')" class="mb-2 mr-2 btn btn-danger fun-color-button nde-white"><i class="fun-icon pe-7s-trash"></i>Delete</a>';
           return $update . $delete;
         })
+        -> addColumn('pdf', function($data){
+            $hiddenId = Crypt::encryptString($data->id);
+            $update = '<a target="_BLANK" id="btn-a-' . $data-> id . '" href="/reservation/download-pdf/' . $hiddenId . '" class="mb-2 mr-2 btn btn-success fun-color-button nde-white"><i class="fun-icon pe-7s-edit"></i>Download</a>';
+
+          return $update;
+        })
         -> addColumn('nama', function($data){
             return $data->nama_depan . ' ' . $data->nama_belakang;
         })
-        ->rawColumns(['aksi', 'action'])
+        ->rawColumns(['aksi', 'action', 'pdf'])
         ->make(true);
     }
 
@@ -190,11 +224,14 @@ class MCheckinCont extends Controller
             // 'room_rate' => 'required',
         ]);
 
+        // $newId = '';
+        // dd($request->all());
+
         // return $request->all();
 
         // $data = FeatureCategory::create($request->all());
         // Menggunakan transaction
-        DB::transaction(function () use ($request) {
+        // DB::transaction(function () use ($request) {
 
 
             // $image = Image::make($request->get('signed'));
@@ -219,13 +256,17 @@ class MCheckinCont extends Controller
             unset($request["output"]);
             $data = MReservation::create($request->all());
 
-        });
+
+
+            // $newId = Crypt::decrypt($data->id);
+            // dd($data->id);
+        // });
 
 
 
         // History::MStore($this->master, $data->id, 'Add new bank data with ID: '. $data->id);
-
-        return redirect('/page/konfirmasi/' . $request->user_id)->with('alert-success', 'Success input reservation form');
+        return response()->json($data);
+        // return redirect('/page/konfirmasi/' . $request->user_id)->with('alert-success', 'Success input reservation form');
     }
 
     public function update(Request $request, $id)

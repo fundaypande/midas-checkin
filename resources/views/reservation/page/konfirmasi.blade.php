@@ -101,6 +101,9 @@
             <br>
             <h2>Thank You</h2>
 
+            
+
+            <b>Billing Information: </b>
             <p>
                 {{ $info->billing_info }}
             </p>
