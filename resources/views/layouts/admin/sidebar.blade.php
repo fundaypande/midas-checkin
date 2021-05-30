@@ -2,11 +2,11 @@
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
         <img style="width: 70%; margin: 0 auto; margin-top: 11px" src="{{ url('images/system/logo_200x200.png') }}" alt="">
-        <a href="index.html">MIDNERSI</a>
+        <a href="index.html">E-Checkin</a>
 
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
-        <a href="index.html">MN</a>
+        <a href="index.html">EC</a>
       </div>
 
       <ul class="sidebar-menu">
@@ -19,7 +19,7 @@
         {{-- @php
             dd($globalFeatures->where('in_menu', '=', '1'));
         @endphp --}}
-        @if (Auth::user()->role_id == 1)
+        {{-- @if (Auth::user()->role_id == 1) --}}
             @foreach($globalFeatureCategories as $itemCategory)
 
                 @if(count($globalFeatures->where('in_menu', '=', '1')->where('feature_category_id', '=', $itemCategory->id)) > 0)
@@ -35,7 +35,7 @@
                     </li>
                 @endif
             @endforeach
-        @endif
+        {{-- @endif --}}
 
     </ul>
 

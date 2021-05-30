@@ -14,11 +14,11 @@ class PropertySetting extends Seeder
     {
         DB::table('m_property_settings')->insert([
             'user_id' => 1,
-            'owner_name' => 'Sudana yasa',
-            'property_name' => 'Reservation',
-            'property_adress' => 'pande',
+            'owner_name' => 'Edy Sujana',
+            'property_name' => 'The Kayuputih Villa & SPA',
+            'property_adress' => 'Jl. Damai No.100x, Kayu Putih, Kec. Sukasada, Kabupaten Buleleng, Bali 81152',
 
-            'billing_info' => 'BCA 476576',
+            'billing_info' => 'BCA 476576***',
         ]);
 
         DB::table('m_property_settings')->insert([

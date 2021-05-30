@@ -23,14 +23,22 @@ class RoomSeeder extends Seeder
         DB::table('m_room_types')->insert([
             'user_id' => 1,
             'room_type' => 'Two Bed Room',
-            'room_desc' => 'One Bed Room',
+            'room_desc' => 'Two Bed Room',
             'room_note' => 'Free Kulkas',
             'room_rate' => 85000
         ]);
 
         DB::table('m_room_types')->insert([
             'user_id' => 2,
-            'room_type' => 'Two Bed Room',
+            'room_type' => 'One Bed Room',
+            'room_desc' => 'One Bed Room',
+            'room_note' => 'Free Kulkas',
+            'room_rate' => 85000
+        ]);
+
+        DB::table('m_room_types')->insert([
+            'user_id' => 3,
+            'room_type' => 'One Bed Room',
             'room_desc' => 'One Bed Room',
             'room_note' => 'Free Kulkas',
             'room_rate' => 85000
@@ -39,15 +47,7 @@ class RoomSeeder extends Seeder
         DB::table('m_room_types')->insert([
             'user_id' => 3,
             'room_type' => 'Two Bed Room',
-            'room_desc' => 'One Bed Room',
-            'room_note' => 'Free Kulkas',
-            'room_rate' => 85000
-        ]);
-
-        DB::table('m_room_types')->insert([
-            'user_id' => 3,
-            'room_type' => 'Two Bed Room',
-            'room_desc' => 'One Bed Room',
+            'room_desc' => 'Two Bed Room',
             'room_note' => 'Free Kulkas',
             'room_rate' => 85000
         ]);

@@ -162,6 +162,11 @@
                             <textarea name="billing_instruction" class="form-control" style="height: 50px" id="" cols="30" rows="10">{{ $data->billing_instruction }}</textarea>
                         </div>
 
+                        <div class="form-group col-md-12">
+                            <label>Remarks</label>
+                            <textarea name="remarks" class="form-control" style="height: 50px" id="" cols="30" rows="10">{{ $data->remarks }}</textarea>
+                        </div>
+
 
                         <input type="hidden" name="user_id" class="form-control" id="" value="{{ auth()->user()->id }}">
 

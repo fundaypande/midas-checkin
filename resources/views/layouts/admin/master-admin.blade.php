@@ -66,9 +66,9 @@
     <div id="app">
         <div class="main-wrapper">
             @include('layouts.admin.navbar')
-            @if (Auth::user()->role_id == 1)
+            {{-- @if (Auth::user()->role_id == 1) --}}
                 @include('layouts.admin.sidebar')
-            @endif
+            {{-- @endif --}}
 
             <!-- Main Content -->
             <div class="main-content">

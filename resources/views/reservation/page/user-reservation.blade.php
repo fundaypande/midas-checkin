@@ -218,13 +218,15 @@
                 <textarea name="billing_instruction" class="form-control" style="height: 50px" id="" cols="30" rows="10" readonly>{{ $info->billing_info }}</textarea>
                 </div>
 
+                <div class="form-group col-md-12">
+                    <label>Remarks</label>
+                <textarea name="remarks" class="form-control" style="height: 50px" id="" cols="30" rows="10"></textarea>
+                </div>
+
 
                 {{-- ttd --}}
 
                 <div class="col-md-12 sigPad">
-                    <label class="" for="">Silahkan membuat tandatangan sesuai
-                         yang diinginkan :
-                    </label>
                     <p class="drawItDesc">Draw your signature</p>
                     <ul class="sigNav">
                       <li class="drawIt"><a href="#draw-it" >Draw It</a></li>
@@ -233,7 +235,7 @@
                     <div class="sig sigWrapper">
                       <div class="typed"></div>
                       <canvas class="pad" width="250" height="150"></canvas>
-                      <input type="hidden" name="output" class="output">
+                      <input type="hidden" name="output" class="output" required>
                     </div>
 
                 </div>

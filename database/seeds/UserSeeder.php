@@ -58,10 +58,10 @@ class UserSeeder extends Seeder
             'role_sub_title' => 'User Page',
         ]);
 
-        DB::table('roles')->insert([
-            'id' => 4,
-            'role_name' => 'Pengunjung',
-            'role_sub_title' => 'Pengunjung',
-        ]);
+        // DB::table('roles')->insert([
+        //     'id' => 4,
+        //     'role_name' => 'Pengunjung',
+        //     'role_sub_title' => 'Pengunjung',
+        // ]);
     }
 }

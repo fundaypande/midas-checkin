@@ -19,34 +19,63 @@ class RoleAccessSeeder extends Seeder
             ]);
         }
 
-        DB::table('role_accesses')->insert([
-            'role_id' => 3,
-            'feature_id' => 28,
-        ]);
+        for ($i=20; $i <= 31; $i++) {
+            DB::table('role_accesses')->insert([
+                'role_id' => 3,
+                'feature_id' => $i,
+            ]);
+        }
 
-        DB::table('role_accesses')->insert([
-            'role_id' => 3,
-            'feature_id' => 29,
-        ]);
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 28,
+        // ]);
 
-        DB::table('role_accesses')->insert([
-            'role_id' => 3,
-            'feature_id' => 30,
-        ]);
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 29,
+        // ]);
 
-        DB::table('role_accesses')->insert([
-            'role_id' => 3,
-            'feature_id' => 31,
-        ]);
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 30,
+        // ]);
 
-        DB::table('role_accesses')->insert([
-            'role_id' => 3,
-            'feature_id' => 32,
-        ]);
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 31,
+        // ]);
 
-        DB::table('role_accesses')->insert([
-            'role_id' => 3,
-            'feature_id' => 33,
-        ]);
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 32,
+        // ]);
+
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 33,
+        // ]);
+
+        // // property setting
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 24,
+        // ]);
+
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 25,
+        // ]);
+
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 26,
+        // ]);
+
+        // DB::table('role_accesses')->insert([
+        //     'role_id' => 3,
+        //     'feature_id' => 27,
+        // ]);
+
     }
 }

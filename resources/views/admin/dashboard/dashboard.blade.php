@@ -37,7 +37,7 @@
 @endsection
 
 @section('content')
-    @if (Auth::user()->role_id == 1)
+
 
     <img style="width: 250px; margin: 0 auto; margin-top: 11px" src="{{ url('images/system/logo_600x393.png') }}" alt="">
 
@@ -48,7 +48,7 @@
     <div class="row">
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <a href="#">
+            <a href="{{ route('property.show') }}">
             <div class="card card-statistic-1">
               <div class="card-icon bg-primary">
                 <i class="fas fa-university"></i>
@@ -58,7 +58,7 @@
                   {{-- <h4>Bank Soal</h4> --}}
                 </div>
                 <div class="card-body">
-                    Bank Soal
+                    Property
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@
 
 
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <a href="{{ route('test.show') }}">
+          <a href="{{ route('room.show') }}">
             <div class="card card-statistic-1">
               <div class="card-icon bg-primary">
                 <i class="fas fa-address-book"></i>
@@ -77,7 +77,7 @@
                   {{-- <h4>Group Test</h4> --}}
                 </div>
                 <div class="card-body">
-                    Group Test
+                    Room Setting
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@
 
 
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <a href="{{ route('disccusion.show') }}">
+            <a href="{{ route('checkin.show') }}">
             <div class="card card-statistic-1">
               <div class="card-icon bg-primary">
                 <i class="fas fa-users"></i>
@@ -96,7 +96,7 @@
                   {{-- <h4>Discussion</h4> --}}
                 </div>
                 <div class="card-body">
-                    Discussion
+                    Reservation Report
                 </div>
               </div>
             </div>
@@ -105,7 +105,7 @@
 
 
           <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-            <a href="{{ route('result.show') }}">
+            <a href="{{ route('checkin.user', ['userId' => Auth::user()->id]) }}">
             <div class="card card-statistic-1">
               <div class="card-icon bg-primary">
                 <i class="fas fa-list"></i>
@@ -115,7 +115,7 @@
                   {{-- <h4>Nilai Siswa</h4> --}}
                 </div>
                 <div class="card-body">
-                    Nilai Siswa
+                    Reservation Form
                 </div>
               </div>
             </div>
@@ -127,6 +127,8 @@
 
     <hr>
     <br>
+
+    @if (Auth::user()->role_id == 1)
 
     <div id="show_data" class="row">
 
@@ -192,9 +194,9 @@
         </div>
 
         </div>
-    @else
+    {{-- @else
 
-    {{-- User biasa login --}}
+
 
     <div style="height: 60px; position: fixed; bottom: 0px; background-color: white; width: 100%; padding: 0px 10px 10px 10px">
         <div class="row">
@@ -210,7 +212,7 @@
         </div>
 
 
-    </div>
+    </div> --}}
 
 
     @endif
