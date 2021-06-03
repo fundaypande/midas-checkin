@@ -32,7 +32,7 @@
                         <br>
 						<ul class="uk-tab uk-flex-center" uk-grid uk-switcher="animation: uk-animation-fade">
 							<li><a href="#">Log In</a></li>
-							<li><a href="#">Sign Up</a></li>
+							{{-- <li><a href="#">Sign Up</a></li> --}}
 							<li class="uk-hidden">Forgot Password?</li>
 						</ul>
 						<ul class="uk-switcher uk-margin">
@@ -114,9 +114,9 @@
                                         </div> --}}
                                     </div>
                                     <br>
-									<div class="uk-text-small uk-text-center">
+									{{-- <div class="uk-text-small uk-text-center">
 										Not registered? <a href="#" uk-switcher-item="1">Create an account</a>
-									</div>
+									</div> --}}
 								</form>
 							</li>
 							<li>

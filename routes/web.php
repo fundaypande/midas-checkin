@@ -2,12 +2,15 @@
 
 // const LARAVEL VERSION = '5.8.35';
 
-Route::get('/', function()
+Route::get('/', 'HomeController@home')->name('web.home');
+
+Route::get('/login', function()
 {
     return redirect('/login');
 });
 
 
+// Route::get('/page/code', 'HomeController@qrCode')->name('web.qr');
 Route::get('/page/reservation/{userId}', 'MCheckinCont@userInput')->name('checkin.user');
 Route::get('/page/konfirmasi/{userId}', 'MCheckinCont@konfirmasi')->name('checkin.konfirmasi');
 Route::get('/page/reservation-room/{roomId}', 'MCheckinCont@userInputRoom')->name('checkin.userRoom');
