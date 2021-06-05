@@ -30,6 +30,7 @@
     <style>
 
     </style>
+    <script src="{{ url('/js/qrcode.min.js') }}"></script>
 @endsection
 
 @section('modal')
@@ -37,9 +38,23 @@
 @endsection
 
 @section('content')
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="qrcode"></div>
+            <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "{{ route('checkin.user', ['userId' => Auth::user()->id]) }}");
+            </script>
+        </div>
+        <div class="col-md-6">
+            <div>
+                {{-- <h1 class="h1">E-Checkin Hotel and Villa</h1> --}}
+            </div>
+        </div>
+    </div>
 
 
-    <img style="width: 250px; margin: 0 auto; margin-top: 11px" src="{{ url('images/system/logo_600x393.png') }}" alt="">
+    {{-- <img style="width: 250px; margin: 0 auto; margin-top: 11px" src="{{ url('images/system/logo_600x393.png') }}" alt=""> --}}
 
     <br>
 
@@ -224,6 +239,7 @@
 
 
     <script>
+
 
         $(document).ready(function () {
 

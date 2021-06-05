@@ -199,13 +199,13 @@
         console.log('removed class');
     });
 
-    document.addEventListener("contextmenu", function(e){
-        e.preventDefault();
-    }, false);
+    // document.addEventListener("contextmenu", function(e){
+    //     e.preventDefault();
+    // }, false);
 
-    $('body').bind('copy paste',function(e) {
-        e.preventDefault(); return false;
-    });
+    // $('body').bind('copy paste',function(e) {
+    //     e.preventDefault(); return false;
+    // });
   </script>
 
 </body>

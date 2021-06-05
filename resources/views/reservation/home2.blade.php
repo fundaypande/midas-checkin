@@ -17,11 +17,17 @@
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
-    <title>JsQRScanner example</title>
+    <title>E-Checkin Scanner</title>
 
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
     <script type="text/javascript" src="/js/jsqrscanner.nocache.js"></script>
+
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
   </head>
   <body>
 
@@ -36,13 +42,16 @@
     <div class="row-element-set error_message" id="secure-connection-message" style="display: none;" hidden >
       You may need to serve this page over a secure connection (https) to run JsQRScanner correctly.
     </div>
+    <div class="row-element-set error_message" id="qrcode-message" style="display: none;" hidden >
+        Invalid QRCode
+    </div>
     <script>
     if (location.protocol != 'https:') {
       document.getElementById('secure-connection-message').style='display: block';
       }
       </script>
 
-      <h1>JsQRScanner example</h1>
+      <h1>E-Checkin Scanner</h1>
       <div class="row-element">
         <div class="FlexPanel detailsPanel QRScannerShort">
           <div class="FlexPanel shortInfoPanel">
@@ -60,29 +69,31 @@
       <div class="row-element">
         <div class="form-field form-field-memo">
           <div class="form-field-caption-panel">
-            <div class="gwt-Label form-field-caption">
+            {{-- <div class="gwt-Label form-field-caption">
               Scanned text
-            </div>
+            </div> --}}
           </div>
           <div class="FlexPanel form-field-input-panel">
-            <textarea id="scannedTextMemo" class="textInput form-memo form-field-input textInput-readonly" rows="3" readonly>
+            <textarea hidden id="scannedTextMemo" class="textInput form-memo form-field-input textInput-readonly" rows="3" readonly>
             </textarea>
           </div>
         </div>
         <div class="form-field form-field-memo">
           <div class="form-field-caption-panel">
-            <div class="gwt-Label form-field-caption">
+            {{-- <div class="gwt-Label form-field-caption">
               Scanned text history
-            </div>
+            </div> --}}
           </div>
           <div class="FlexPanel form-field-input-panel">
-            <textarea id="scannedTextMemoHist" class="textInput form-memo form-field-input textInput-readonly" value="" rows="6" readonly>
+            <textarea hidden id="scannedTextMemoHist" class="textInput form-memo form-field-input textInput-readonly" value="" rows="6" readonly>
             </textarea>
           </div>
         </div>
       </div>
       <br>
-      <a style="font-weight: bold;" href="https://github.com/jbialobr/JsQRScanner">The source code is hosted on GitHub</a>
+      <br>
+      <br>
+      <a style="font-weight: bold; text-align: center;" href="/login">Login</a>
     </div>
   <script type="text/javascript">
     function onQRCodeScanned(scannedText)
@@ -91,6 +102,13 @@
     	if(scannedTextMemo)
     	{
     		scannedTextMemo.value = scannedText;
+            if (scannedText.includes("thekayuputihlovina.com")) {
+                window.location.replace(scannedText);
+            } else {
+                document.getElementById('qrcode-message').style='display: block';
+            }
+
+            console.log(scannedText);
     	}
     	var scannedTextMemoHist = document.getElementById("scannedTextMemoHist");
     	if(scannedTextMemoHist)
