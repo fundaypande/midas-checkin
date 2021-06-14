@@ -166,6 +166,9 @@ Signature PAD Laravel https://www.asepit.com/cara-membuat-tandatangan-signature-
 real 
 https://github.com/thread-pond/signature-pad
 
+QRCODE BARCODE SCANNER
+https://github.com/jbialobr/JsQRScanner
+
 
 
 

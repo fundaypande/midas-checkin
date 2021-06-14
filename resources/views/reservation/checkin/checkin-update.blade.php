@@ -53,7 +53,7 @@
 
 
                     {{-- form start --}}
-                    <form action="{{ route('checkin.update', ['id' => $data->id]) }}" method="post">
+                    <form action="{{ route('checkin.update', ['id' => $data->reservation_id]) }}" method="post">
                         @csrf
                         <div class="custom-switches-stacked mt-2">
                             <label class="custom-switch">
@@ -145,6 +145,10 @@
 
                           </div>
 
+                          <div class="form-group col-md-12">
+                            <label>Room No</label>
+                            <input type="text" name="no_room" class="form-control" id="" value="{{ $data-> no_room }}">
+                        </div>
 
                         <div class="form-group col-md-12">
                             <label>Room Rate *</label>

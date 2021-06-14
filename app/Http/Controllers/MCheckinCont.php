@@ -113,6 +113,7 @@ class MCheckinCont extends Controller
 
         $data = MReservation::join('m_room_types', 'm_room_types.id', 'm_reservations.room_type_id')
                             -> where('m_reservations.id', $id)
+                            -> select('m_room_types.*', 'm_reservations.*', 'm_reservations.id as reservation_id')
                             -> where('m_reservations.user_id', Auth::user()->id)
                             -> first();
 
@@ -278,6 +279,8 @@ class MCheckinCont extends Controller
             // 'room_type' => 'required',
             // 'room_rate' => 'required',
         ]);
+
+        // dd($id);
 
         $data = MReservation::find($id);
 

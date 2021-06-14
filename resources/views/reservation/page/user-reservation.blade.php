@@ -201,6 +201,10 @@
 
                   </div>
 
+                <div class="form-group col-md-12">
+                    <label>No Room</label>
+                    <input type="text" name="no_room" class="form-control" id="no_room_id" value="">
+                </div>
 
                 <div class="form-group col-md-12">
                     <label>Room Rate *</label>
@@ -316,6 +320,7 @@
             $('#signature64').val(canvas);
 
 
+
             $.ajax({
                 type: "POST",
                 url: url,
@@ -354,17 +359,76 @@
         $('input[name="room_type_id"]').change(function() {
             roomId = $(this).val();
 
+            var checkin = $('#from_id').val();
+            var checkout = $('#end_id').val();
+
+            var date1 = new Date(checkin);
+            var date2 = new Date(checkout);
+            var Difference_In_Time = date2.getTime() - date1.getTime();
+
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+            console.log('total tanggal :' + Difference_In_Days);
+
+            checkHarga(roomId, Difference_In_Days);
+        });
+
+
+
+
+        $('input[name="tanggal_checkin"]').change(function() {
+            roomId = $('input[name="room_type_id"]:checked').val();
+
+            var checkin = $('#from_id').val();
+            var checkout = $('#end_id').val();
+
+            var date1 = new Date(checkin);
+            var date2 = new Date(checkout);
+            var Difference_In_Time = date2.getTime() - date1.getTime();
+
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+            console.log('total tanggal :' + Difference_In_Days);
+
+
+
+            checkHarga(roomId, Difference_In_Days);
+        });
+
+
+        $('input[name="tanggal_checkout"]').change(function() {
+            roomId = $('input[name="room_type_id"]:checked').val();
+
+            console.log('room :' + roomId);
+
+
+            var checkin = $('#from_id').val();
+            var checkout = $('#end_id').val();
+
+            var date1 = new Date(checkin);
+            var date2 = new Date(checkout);
+            var Difference_In_Time = date2.getTime() - date1.getTime();
+
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+            console.log('total tanggal :' + Difference_In_Days);
+
+            checkHarga(roomId, Difference_In_Days);
+        });
+
+
+
+        function checkHarga(roomId, hari) {
             $.get('/page/reservation-room/'+roomId, function( data ) {
                 $('#room_rate_id').val(data);
-                $('#total_pax_id').val(data);
+                $('#total_pax_id').val(data*hari);
             })
             .fail(function (err) {
                 console.log('error get ajax feature category with: '+ err);
                 $('#total_id').html('Error get data');
             });
+        }
 
-
-        });
     </script>
 
 
